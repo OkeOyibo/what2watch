@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
-import { StyleSheet, ImageBackground, View, Animated, Easing, StatusBar, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, ImageBackground, View, Animated, Easing, StatusBar, TouchableOpacity, Image, Switch } from 'react-native';
 import { Icon, Text } from 'react-native-elements';
+import Categories from '../components/Categories';
 
 function Index(props) {
+
+  const [isSeries, setIsSeries] = useState(true)
+  const toggleSwitch = () => setIsSeries(previousState => !previousState);
 
   let opacityTop = new Animated.Value(0);
   let opacityBottom = new Animated.Value(0);
@@ -31,12 +34,12 @@ function Index(props) {
 
   const size = opacityTop.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 110]
+    outputRange: [0, 50]
   })
 
   const sizeBtm = opacityBottom.interpolate({
     inputRange: [0, 1],
-    outputRange: [250, 90]
+    outputRange: [250, 40]
   })
 
   const animatedHeader = [
@@ -69,34 +72,25 @@ useEffect(() => {
       <StatusBar hidden={false} />
       <View style={styles.headerWrapper}>
         <Animated.View style={animatedHeader}>
-            <Text h1 style={[styles.title]}>Don't know</Text>
+            <Text h1 style={[styles.text]}>Don't know</Text>
         </Animated.View>
-        <Text h4 style={[styles.header, {color: 'lightgrey', top: 100}]}>what to</Text>
+        <Text h4 style={[styles.header, {color: 'lightgrey', top: 45}]}>what to</Text>
         <Animated.View style={animatedHeaderBtm}>
-            <Text h1 style={[{color: 'white'}]}>WATCH</Text>
+            <Text h1 style={styles.text}>WATCH</Text>
         </Animated.View>
-      </View>
-      <View style={styles.swipeUp}>
-        <Icon
-                    reverse
-                    name='arrow-upward'
-                    color='black' />
-        <Text style={styles.text}>Swipe Up</Text>
-      </View>
-        <View style={[styles.bottomBar]}>
-            <TouchableOpacity>
-                <Icon
-                  reverse
-                  name='list'
-                  color='black' />
-              </TouchableOpacity>
-            <TouchableOpacity>
-              <Icon
-                reverse
-                name='favorite-border'
-                color='red' />  
-            </TouchableOpacity>
-        </View>     
+      </View >
+        <View style={styles.toggle}>
+          <Text style={styles.text}>Movies</Text>
+          <Switch
+            trackColor={{ false: "white", true: "white" }}
+            thumbColor={"red"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isSeries}
+          />
+          <Text style={styles.text}>Series</Text>
+        </View>
+        <Categories />
     </ImageBackground>     
   );    
 }
@@ -105,23 +99,11 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: "contain",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  bottomBar: {
-    height: 70,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  swipeUp: {
-    position: "absolute",
-    bottom: 120
-  },
-  text: {
-    color: 'white',
-
+    justifyContent: 'flex-start',
+    alignItems: "flex-start",
+    paddingTop: 250,
+    paddingLeft: 40,
+    paddingRight: 40
   },
   headerWrapper: {
     position: "absolute",
@@ -136,8 +118,15 @@ const styles = StyleSheet.create({
     color: 'white',
     top: 0,
   },
-  title: {
-    color: 'white'
+  toggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 25,
+    width: '100%'
+  },
+  text: {
+    color: 'white',
   },
 });
 export default Index;
