@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker'
 import { getCategories } from '../services/MovieService'
-import { addListener, removeListener } from '../services/ShakeService'
 
-function Categories (props) {
-    const [data, setData] = useState([])
-    const [values, setValues] = useState([])
-
-    let controller
+function Categories ({ getValues }) {
+    let controller;
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -60,9 +57,10 @@ function Categories (props) {
             }
             defaultValue={''}
             controller={instance => controller = instance}
-            onChangeItem={item => setValues(item.value)}
+            onChangeItem={item => getValues(item)}
         />
     );  
+
 }
 
 export default Categories;
