@@ -1,35 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { getCategories } from '../services/MovieService'
 import DropDownPicker from 'react-native-dropdown-picker'
+import { getCategories } from '../services/MovieService'
+import { addListener, removeListener } from '../services/ShakeService'
 
 function Categories (props) {
     const [data, setData] = useState([])
     const [values, setValues] = useState([])
-    const [items, setItems] = useState([])
 
     let controller
 
     useEffect(() => {
         async function fetchData() {
-            const response = await getCategories()
-            setData(response);
+            try {
+                let response = await getCategories();
+                let genres = await response.genres;
+                console.log(genres);
+                setData(genres);
+            }
+            catch(error){ console.log(error); }
         };
-        fetchData();
-        setItems(
-            data.map((item) => {
-                return {
-                    label: item.name,
-                    value: item.id
-                }
-            })
-        )
+        if (!data.length > 0) {
+            fetchData();
+        }
     }, [])
 
     return(
         <DropDownPicker
             placeholder={"Select categories"}
             multiple={true}
-            multipleText="%d items have been selected."
+            multipleText="%d items out of 3"
             min={0}
             max={3}
             style={{
@@ -52,7 +51,13 @@ function Categories (props) {
             }}
             dropDownMaxHeight={225}
             arrowColor={'white'}
-            items={items}
+            items={
+                data.map((item) => {
+                return {
+                    label: item.name,
+                    value: item.id
+                }})
+            }
             defaultValue={''}
             controller={instance => controller = instance}
             onChangeItem={item => setValues(item.value)}

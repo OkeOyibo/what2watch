@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ImageBackground, View, Animated, Easing, StatusBar, TouchableOpacity, Image, Switch } from 'react-native';
-import { Icon, Text } from 'react-native-elements';
+import { StyleSheet, ImageBackground, View, Animated, Easing, StatusBar } from 'react-native';
+import { colors, Icon, Text } from 'react-native-elements';
+import SwitchSelector from 'react-native-switch-selector';
 import Categories from '../components/Categories';
 
 function Index(props) {
 
-  const [isSeries, setIsSeries] = useState(true)
+  const [isSeries, setIsSeries] = useState(false)
   const toggleSwitch = () => setIsSeries(previousState => !previousState);
 
   let opacityTop = new Animated.Value(0);
@@ -59,6 +60,11 @@ function Index(props) {
     }
   ]
 
+  const switchOptions = [
+    { label: "Movies", value: "m" },
+    { label: "Series", value: "s" }
+  ]
+
 useEffect(() => {
   animateTopText();
   animateBottomText();
@@ -80,15 +86,14 @@ useEffect(() => {
         </Animated.View>
       </View >
         <View style={styles.toggle}>
-          <Text style={styles.text}>Movies</Text>
-          <Switch
-            trackColor={{ false: "white", true: "white" }}
-            thumbColor={"red"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isSeries}
+          <SwitchSelector
+            initial={0}
+            buttonColor={'red'}
+            backgroundColor={'white'}
+            borderColor={'white'}
+            options={switchOptions}
+            borderWidth={0}
           />
-          <Text style={styles.text}>Series</Text>
         </View>
         <Categories />
     </ImageBackground>     
