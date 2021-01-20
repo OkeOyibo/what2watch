@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, ImageBackground, View, Animated, Easing, StatusBar } from 'react-native';
-import { colors, Icon, Text } from 'react-native-elements';
+import { Button, Icon, Text } from 'react-native-elements';
 import SwitchSelector from 'react-native-switch-selector';
 import Categories from '../components/Categories';
 
-function Index(props) {
+function Index() {
 
-  const [isSeries, setIsSeries] = useState(false)
-  const toggleSwitch = () => setIsSeries(previousState => !previousState);
-
+  
   let opacityTop = new Animated.Value(0);
   let opacityBottom = new Animated.Value(0);
+  let switchValue = "m";
+
+  const [categories, setCategories] = useState(null);
+  const [animated, setAnimated] = useState(false);
+
+  const getCategories = (values) => {
+    setCategories(values);
+    console.log(values);
+  }
 
   const animateTopText = () => {
     opacityTop.setValue(0);
@@ -30,7 +37,7 @@ function Index(props) {
       delay: 400,
       easing: Easing.bounce,
       useNativeDriver: false,
-    }).start()
+    }).start(() => { setAnimated(true) })
   }
 
   const size = opacityTop.interpolate({
@@ -61,13 +68,15 @@ function Index(props) {
   ]
 
   const switchOptions = [
-    { label: "Movies", value: "m" },
+    { label: "Movies", value: "m"},
     { label: "Series", value: "s" }
   ]
 
 useEffect(() => {
-  animateTopText();
-  animateBottomText();
+  if (!animated) {
+    animateTopText();
+    animateBottomText();
+  }
 })
 
   return (    
@@ -87,15 +96,28 @@ useEffect(() => {
       </View >
         <View style={styles.toggle}>
           <SwitchSelector
+            onPress={(value) => {switchValue = value}}
             initial={0}
             buttonColor={'red'}
-            backgroundColor={'white'}
+            backgroundColor={'black'}
             borderColor={'white'}
+            textColor={'white'}
+            selectedColor={'black'}
             options={switchOptions}
             borderWidth={0}
           />
         </View>
-        <Categories />
+          <Categories getValues={getCategories}/>
+        <View style={styles.footerWrapper}>
+          <Button
+            title={"shuffle"}
+            type={"outline"}
+            buttonStyle={ {borderColor: 'white', width: 130} }
+            titleStyle={ {color: 'white'} }
+            icon={<Icon name={"shuffle"} color={'white'} />}
+            iconRight
+          />
+        </View>
     </ImageBackground>     
   );    
 }
@@ -124,11 +146,21 @@ const styles = StyleSheet.create({
     top: 0,
   },
   toggle: {
+    alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 25,
-    width: '100%'
+    marginTop: 20,
+    marginBottom: 20,
+    width: 150
+  },
+  footerWrapper: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 130,
+    width: '100%',  
   },
   text: {
     color: 'white',
