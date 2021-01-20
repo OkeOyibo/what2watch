@@ -1,6 +1,4 @@
 'use stict';
-
-import React from 'react';
 import {
     Accelerometer
 } from 'expo';
