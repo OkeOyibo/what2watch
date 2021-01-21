@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Button, Icon, Text } from 'react-native-elements';
 import MyCarouel from '../components/MyCarousel';
 
-function Selection({ navigation }) {
+function Selection({ route, navigation }) {
     return (
         <SafeAreaView style={styles.wrapper}>
             <View style={styles.header}>
@@ -15,7 +15,7 @@ function Selection({ navigation }) {
                     onPress={() => {navigation.goBack()}}
                 />
             </View>
-            <MyCarouel />
+            <MyCarouel genres={route.params.genres} />
         </SafeAreaView>
     );
 }
