@@ -6,8 +6,6 @@ export async function getCategories()  {
         
         let response = await fetch(request);
         let json = await response.json();
-        console.log(request);
-        console.log(json);
         return json;
     }
     catch(error) {
@@ -17,16 +15,14 @@ export async function getCategories()  {
 
 export async function discoverMovies(values) {
     try {
-        const page = Math.floor(Math.random() * 1000) + 1;
-        const genres = values.reduce((item) => {
-            return `${item},`
-        }, "");
+        const page = Math.floor(Math.random() * 500) + 1;
+        const genres = values;
 
         const request = `${API_URL}discover/movie?api_key=${API_KEY}&with_genres=${genres}&page=${page}`;
         
         let response = await fetch(request);
         let json = await response.json();
-        
+
         return json;
     }
     catch(error) {
