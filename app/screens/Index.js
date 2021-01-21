@@ -12,12 +12,11 @@ function Index({ navigation }) {
   let opacityBottom = new Animated.Value(0);
   let switchValue = "m";
 
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(null);
   const [animated, setAnimated] = useState(false);
 
   const getCategories = (values) => {
     setCategories(values);
-    console.log(values);
   }
 
   const animateTopText = () => {
@@ -81,8 +80,8 @@ useEffect(() => {
 
   addListener(() => {
     console.log("shake detected!");
-    if (categories.length > 0) {
-      navigation.navigate('Selection')
+    if (categories !== null) {
+      navigation.navigate('Selection', { genres: categories } )
     }
   })
 })
@@ -124,9 +123,12 @@ useEffect(() => {
             titleStyle={ {color: 'white'} }
             icon={<Icon name={"shuffle"} color={'white'} />}
             iconRight
-            onPress={() => { if(categories.length > 0) {navigation.navigate('Selection')}}}
+            onPress={() => { if(categories !== null) {navigation.navigate('Selection', { genres: categories } )}}}
           />
         </View>
+        {
+          categories !== null ? <Text style={styles.infoText}>press the button or shake your device</Text> : null
+        }
     </ImageBackground>     
   );    
 }
@@ -174,5 +176,10 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
   },
+  infoText: {
+    alignSelf: 'center',
+    color: 'lightgrey',
+    marginTop: 20,
+  }
 });
 export default Index;
