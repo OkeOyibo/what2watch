@@ -1,7 +1,5 @@
-'use stict';
-import {
-    Accelerometer
-} from 'expo';
+'use strict';
+import { Accelerometer } from 'expo-sensors';
 
 const THRESHOLD = 800;
 
