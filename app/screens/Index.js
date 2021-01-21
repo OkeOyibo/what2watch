@@ -3,15 +3,16 @@ import { StyleSheet, ImageBackground, View, Animated, Easing, StatusBar } from '
 import { Button, Icon, Text } from 'react-native-elements';
 import SwitchSelector from 'react-native-switch-selector';
 import Categories from '../components/Categories';
+import { addListener } from '../services/ShakeService';
 
-function Index() {
+function Index({ navigation }) {
 
   
   let opacityTop = new Animated.Value(0);
   let opacityBottom = new Animated.Value(0);
   let switchValue = "m";
 
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [animated, setAnimated] = useState(false);
 
   const getCategories = (values) => {
@@ -77,6 +78,13 @@ useEffect(() => {
     animateTopText();
     animateBottomText();
   }
+
+  addListener(() => {
+    console.log("shake detected!");
+    if (categories.length > 0) {
+      navigation.navigate('Selection')
+    }
+  })
 })
 
   return (    
@@ -116,6 +124,7 @@ useEffect(() => {
             titleStyle={ {color: 'white'} }
             icon={<Icon name={"shuffle"} color={'white'} />}
             iconRight
+            onPress={() => { if(categories.length > 0) {navigation.navigate('Selection')}}}
           />
         </View>
     </ImageBackground>     
