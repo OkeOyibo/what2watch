@@ -3,13 +3,12 @@ import { StyleSheet } from 'react-native';
 
 import { Icon } from 'react-native-elements';
 
-import Index from './app/screens/Index';
 import Favorites from './app/screens/Favorites';
+import Navigation from './app/components/Navigation'
 
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -42,7 +41,7 @@ function App() {
         >
           <Tab.Screen
             name="Discover"
-            component={Index}
+            component={Navigation}
           />
           <Tab.Screen
             name="Favorites"
