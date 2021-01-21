@@ -11,7 +11,6 @@ function Categories ({ getValues }) {
             try {
                 let response = await getCategories();
                 let genres = await response.genres;
-                console.log(genres);
                 setData(genres);
             }
             catch(error){ console.log(error); }
@@ -23,11 +22,9 @@ function Categories ({ getValues }) {
 
     return(
         <DropDownPicker
-            placeholder={"Select categories"}
-            multiple={true}
-            multipleText="%d items out of 3"
+            placeholder={"Select category"}
             min={0}
-            max={3}
+            max={1}
             style={{
                 backgroundColor: 'red',
                 borderColor: 'red',
@@ -57,7 +54,7 @@ function Categories ({ getValues }) {
             }
             defaultValue={''}
             controller={instance => controller = instance}
-            onChangeItem={item => getValues(item)}
+            onChangeItem={item => getValues(item.value)}
         />
     );  
 
