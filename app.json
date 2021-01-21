@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "app/assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.skzey.what2watch"
     },
     "web": {
       "favicon": "app/assets/favicon.png"
